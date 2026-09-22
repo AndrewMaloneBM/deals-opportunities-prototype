@@ -15,6 +15,10 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   app: {
+    // Overridable via NUXT_APP_BASE_URL — set in CI when deploying to
+    // GitHub Pages under a /repo-name/ subpath. Defaults to '/' for local
+    // dev and for any future host that serves this at its own root domain.
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     head: {
       title: 'Deals Opportunities — Research Prototype',
       meta: [
