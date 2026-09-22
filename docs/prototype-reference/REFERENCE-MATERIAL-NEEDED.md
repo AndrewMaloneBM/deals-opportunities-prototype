@@ -16,13 +16,23 @@ The real PRD (Step 1) also reveals that the GH Pages "Deals Adoption" hub (`exis
 Both URLs redirect to an Atlassian login page (HTTP 302, then a JS-gated login screen) when fetched without an authenticated browser session. Dust's Confluence connector does not have these specific pages indexed (confirmed via `dust chat -a dustBuddy`), and no browser/Confluence MCP integration is configured in this environment. Substituted at the time with the Feb 2025 PRD ancestor + Aug 2026 discovery docs + front-apps code, all of which turned out to align closely with the real PRDs once retrieved.
 </details>
 
-## 2. Real screenshots of the live (currently flagged) Opportunities → Deals tab in front-apps
+## 2. Real screenshots of the live Opportunities → Deals tab — ✅ RESOLVED 2026-09-22
 
-**Status: NOT available.** This feature is mid-build (commits through yesterday, 2026-09-21) and gated behind the `isDealsOpportunitiesStep1Enabled` business feature flag. I have no Back Office login/session, and even with one, the feature is likely not toggled on in any environment I could reach. No screenshot exists in Andrew's local files because the feature didn't exist yet when those screenshots were taken (Feb 2025 / Jun 2024).
+Andrew shared 4 real screenshots directly in-session (deals list + 3 campaign drawers). Saved as:
+- `screenshots/current-deals-list-2026-09.png`
+- `screenshots/current-campaign-drawer-apple-2026-09.png`
+- `screenshots/current-campaign-drawer-pixel-2026-09.png`
+- `screenshots/current-campaign-drawer-macbook-2026-09.png`
 
-**What I used instead**: the front-apps source code itself (component names, prop shapes, copy strings via `.translations.ts` files, Revolve component imports) — see `notes/front-apps-deals-feature-findings.md`. This is a stronger structural reference than a screenshot would be, but it is not a visual reference.
+**These revealed real discrepancies from what had been reverse-engineered from front-apps code + the written PRD**, now corrected in the build (see `../PLAN.md` §15 and the component files themselves):
+1. Status labels are **"In target"** / **"Far target"**, not "In Deal" / "Above target" as the written PRD's prose said. The PRD's own table matches the brief's wording, but the real screenshots — which are the highest-priority visual source per the fidelity rules — say otherwise. **Flagging to Andrew: the written PRD text may be stale relative to what's actually shipped/designed.**
+2. Near/Far target rows show **both** "Update price" (primary) and "View listing" (secondary) stacked, not just one action.
+3. Price cell shows 3 lines: bold current price → "€X above target" (or "At or below target") → "Target: €X".
+4. Campaign drawer is simpler than first assumed: no stats grid — just Active tag + time-left, campaign name, description, market flags, then the table. Drawer title bar says generic "Campaign details".
+5. Campaign cards: no commission-rate text, no date range — just Active tag + name, with a time-left pill + "N models ›" pill + market flags on the right.
+6. Time shown as relative ("Today" / "N days left"), not absolute dates.
 
-**Action needed from Andrew**: if he has Back Office access with the flag enabled (or Figma files linked from the PRDs — the Feb 2025 PRD references a "Figma: Listings" link), export/screenshot the real campaign card, drawer, and models table and drop them into `screenshots/` as `current-deals-page.png`, `current-campaign-drawer.png`. Until then, the prototype's visual design for these specific screens is an informed extrapolation (Revolve components + front-apps copy + the research brief's explicit field list), not a traced screenshot.
+Note: the example row data in these screenshots (e.g. a "€60.00 above target" row still labeled "In target") is internally inconsistent with the real 3% rule — almost certainly placeholder/mockup data, not meant to be business-rule-accurate. This prototype kept its own correctly-calculated fixture data and only adopted the real **labels/layout/structure** from the screenshots, not the example numbers.
 
 ## 3. A dedicated "single listing detail" screenshot
 

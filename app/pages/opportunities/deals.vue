@@ -64,15 +64,15 @@ function listingsForCampaign(campaignId: string) {
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-24">
     <div>
       <h1 class="heading-1">
         Opportunities
       </h1>
-      <div class="mt-4 flex gap-6 border-b border-static-default-low">
-        <span class="pb-3 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Pricing</span>
-        <span class="pb-3 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Inventory</span>
-        <span class="pb-3 body-1 font-medium border-b-2 border-static-default-hi">Deals</span>
+      <div class="mt-16 flex gap-24 border-b border-static-default-low">
+        <span class="pb-12 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Pricing</span>
+        <span class="pb-12 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Inventory</span>
+        <span class="pb-12 body-1 font-medium border-b-2 border-static-default-hi">Deals</span>
       </div>
     </div>
 
@@ -95,7 +95,7 @@ function listingsForCampaign(campaignId: string) {
         content="Try clearing the market or product type filter."
       />
 
-      <div v-else class="grid gap-4 sm:grid-cols-2">
+      <div v-else class="flex flex-col gap-16">
         <CampaignDrawer
           v-for="campaign in filteredCampaigns"
           :key="campaign.id"

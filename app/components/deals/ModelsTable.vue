@@ -54,15 +54,30 @@ function metrics(listing: ListingFixture) {
       <div v-if="item.currentPrice != null">
         <p class="font-medium">
           €{{ item.currentPrice }}
-          <span class="text-static-default-low body-2">/ target €{{ item.targetPrice }}</span>
         </p>
-        <p v-if="metrics(item)" class="body-2" :class="metrics(item)!.profitPerUnit < 0 ? 'text-static-danger-hi' : 'text-static-success-hi'">
+        <p class="text-static-default-low body-2">
+          <template v-if="metrics(item) && metrics(item)!.priceGap > 0">
+            €{{ metrics(item)!.priceGap.toFixed(2) }} above target
+          </template>
+          <template v-else>
+            At or below target
+          </template>
+        </p>
+        <p class="text-static-default-low body-2">
+          Target: €{{ item.targetPrice }}
+        </p>
+        <p v-if="metrics(item)" class="body-2 mt-4" :class="metrics(item)!.profitPerUnit < 0 ? 'text-static-danger-hi' : 'text-static-success-hi'">
           {{ metrics(item)!.profitPerUnit >= 0 ? '+' : '' }}€{{ metrics(item)!.profitPerUnit.toFixed(2) }} profit/unit
         </p>
       </div>
-      <p v-else class="text-static-default-low body-2">
-        Not listed · target €{{ item.targetPrice }}
-      </p>
+      <div v-else>
+        <p class="italic text-static-default-low">
+          Not listed
+        </p>
+        <p class="text-static-default-low body-2">
+          Target: €{{ item.targetPrice }}
+        </p>
+      </div>
     </template>
 
     <template #body-status="{ item }">

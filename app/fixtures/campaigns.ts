@@ -18,7 +18,7 @@ export const CAMPAIGNS: Campaign[] = [
     originalCommissionRate: 0.11,
     reducedCommissionRate: 0.07,
     description:
-      'Reduced commission on selected iPhone models when your listing price is at or below the Deal target price.',
+      'Price your eligible listings at the deal target price to qualify for reduced commission.',
   },
   {
     id: 'c2',
@@ -31,6 +31,6 @@ export const CAMPAIGNS: Campaign[] = [
     originalCommissionRate: 0.12,
     reducedCommissionRate: 0.08,
     description:
-      'Reduced commission on selected Samsung Galaxy and Apple MacBook models when your listing price is at or below the Deal target price.',
+      'Price your eligible listings at the deal target price to qualify for reduced commission.',
   },
 ]

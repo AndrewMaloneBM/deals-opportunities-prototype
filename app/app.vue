@@ -37,8 +37,8 @@ function submit() {
   <NuxtLayout v-if="isUnlocked">
     <NuxtPage />
   </NuxtLayout>
-  <div v-else class="flex min-h-screen items-center justify-center bg-surface-default-low px-4">
-    <form class="w-full max-w-sm space-y-4 rounded-lg border border-static-default-low bg-surface-default-hi p-6 shadow-md" @submit.prevent="submit">
+  <div v-else class="flex min-h-screen items-center justify-center bg-surface-default-low px-16">
+    <form class="w-full max-w-sm space-y-16 rounded-lg border border-static-default-low bg-surface-default-hi p-24 shadow-md" @submit.prevent="submit">
       <p class="heading-3">
         Research prototype
       </p>
@@ -49,13 +49,13 @@ function submit() {
         v-model="input"
         type="password"
         autofocus
-        class="w-full rounded-md border border-static-default-low px-3 py-2"
+        class="w-full rounded-md border border-static-default-low px-12 py-8"
         placeholder="Passphrase"
       >
       <p v-if="error" class="body-2 text-static-danger-hi">
         Incorrect passphrase — please try again.
       </p>
-      <button type="submit" class="w-full rounded-md bg-static-default-hi py-2 text-static-default-low-inv font-medium">
+      <button type="submit" class="w-full rounded-md bg-static-default-hi py-8 text-static-default-low-inv font-medium">
         Continue
       </button>
     </form>

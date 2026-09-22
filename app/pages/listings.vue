@@ -29,12 +29,12 @@ const filteredListings = computed(() =>
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex items-start justify-between gap-4">
+  <div class="space-y-24">
+    <div class="flex items-start justify-between gap-16">
       <h1 class="heading-1">
         Your listings
       </h1>
-      <div class="flex gap-3">
+      <div class="flex gap-12">
         <ExportDrawer :listings="listings" :campaigns="campaigns" />
         <RevButton variant="primary" size="small">
           Create new listing

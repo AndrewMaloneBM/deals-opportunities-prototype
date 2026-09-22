@@ -28,15 +28,15 @@ function onReset() {
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4 z-30">
-    <div v-if="isOpen" class="mb-2 w-64 rounded-md border border-static-default-low bg-surface-default-hi p-4 shadow-lg">
+  <div class="fixed bottom-16 right-16 z-30">
+    <div v-if="isOpen" class="mb-8 w-256 rounded-md border border-static-default-low bg-surface-default-hi p-16 shadow-lg">
       <p class="body-2 font-medium">
         Session log
       </p>
-      <p class="body-2 text-static-default-low mt-1">
+      <p class="body-2 text-static-default-low mt-4">
         {{ events.length }} event{{ events.length === 1 ? '' : 's' }} recorded
       </p>
-      <div class="mt-3 flex flex-col gap-2">
+      <div class="mt-12 flex flex-col gap-8">
         <RevButton variant="secondary" size="small" full-width="always" @click="downloadLog">
           Download session log
         </RevButton>
@@ -47,7 +47,7 @@ function onReset() {
     </div>
     <button
       type="button"
-      class="relative flex h-11 w-11 items-center justify-center rounded-full border border-static-default-low bg-surface-default-hi shadow-md"
+      class="relative flex h-44 w-44 items-center justify-center rounded-full border border-static-default-low bg-surface-default-hi shadow-md"
       aria-label="Session log and reset"
       @click="isOpen = !isOpen"
     >
@@ -56,7 +56,7 @@ function onReset() {
         v-if="events.length > 0"
         :count="events.length"
         variant="primary"
-        class="absolute -top-1 -right-1"
+        class="absolute -top-4 -right-4"
         aria-label="Number of events recorded"
       />
     </button>

@@ -27,19 +27,31 @@ export type ListingStatus =
   | 'FAR_TARGET'
   | 'NOT_LISTED'
 
-/** User-facing labels for each backend status (PRD §"Listings statuses"). */
+/**
+ * User-facing labels for each backend status.
+ *
+ * NOTE ON A REAL DISCREPANCY: the written Step 1 PRD's "Listings statuses"
+ * table uses "In Deal" / "Above target". But the actual real screenshots
+ * Andrew shared (2026-09-22, from the real Deals page + campaign drawer)
+ * show "In target" / "Far target" instead. Per visual-fidelity priority
+ * (real screenshots outrank PRD prose), this prototype matches the
+ * screenshots. Flagged to Andrew — the PRD text may be stale.
+ */
 export const STATUS_LABEL: Record<ListingStatus, string> = {
-  IN_TARGET: 'In Deal',
+  IN_TARGET: 'In target',
   NEAR_TARGET: 'Near target',
-  FAR_TARGET: 'Above target',
+  FAR_TARGET: 'Far target',
   NOT_LISTED: 'Not listed',
 }
 
 /**
- * Contextual action per status (PRD §"Actions").
- * Copy is "View listing" (not the PRD narrative's inconsistent "See listing")
- * per Andrew's resolved decision to follow front-apps' shipped code, which
- * also matches the PRD's own tracking-strategy event list.
+ * Contextual action(s) per status — per the real screenshots, Near/Far
+ * target rows show BOTH "Update price" (primary) and "View listing"
+ * (secondary), not just one action. In target shows only "View listing".
+ * Not listed shows only "Create listing". Copy is "View listing" (not the
+ * written PRD's inconsistent "See listing") per Andrew's resolved decision
+ * to follow front-apps' shipped code, which also matches the PRD's own
+ * tracking-strategy event list.
  */
 export type ActionType = 'view_listing' | 'update_price' | 'create_listing'
 
@@ -49,11 +61,12 @@ export const ACTION_LABEL: Record<ActionType, string> = {
   create_listing: 'Create listing',
 }
 
-export const STATUS_ACTION: Record<ListingStatus, ActionType> = {
-  IN_TARGET: 'view_listing',
-  NEAR_TARGET: 'update_price',
-  FAR_TARGET: 'update_price',
-  NOT_LISTED: 'create_listing',
+/** Ordered — first action is primary (filled button), rest are secondary (outline). */
+export const STATUS_ACTIONS: Record<ListingStatus, ActionType[]> = {
+  IN_TARGET: ['view_listing'],
+  NEAR_TARGET: ['update_price', 'view_listing'],
+  FAR_TARGET: ['update_price', 'view_listing'],
+  NOT_LISTED: ['create_listing'],
 }
 
 /** Only 'active' campaigns are modeled in this iteration (resolved decision —

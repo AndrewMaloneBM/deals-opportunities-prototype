@@ -36,7 +36,7 @@ function isInDeal(listing: ListingFixture) {
         <p class="font-medium text-static-default-hi">
           {{ item.productName }}
         </p>
-        <div class="mt-1 flex items-center gap-2">
+        <div class="mt-4 flex items-center gap-8">
           <p class="text-static-default-low body-2">
             {{ item.sku }}
           </p>

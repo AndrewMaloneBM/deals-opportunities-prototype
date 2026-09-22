@@ -40,15 +40,18 @@ test.describe('Primary journey — Listings to Deals Opportunities', () => {
   test('opening a campaign shows all 4 listing statuses with correct actions', async ({ page }) => {
     await unlock(page)
     await page.getByRole('button', { name: /Apple iPhones/ }).click()
-    await expect(page.getByText('In Deal', { exact: true })).toBeVisible()
+    await expect(page.getByText('In target', { exact: true })).toBeVisible()
     await expect(page.getByText('Near target')).toBeVisible()
-    await expect(page.getByRole('button', { name: 'View listing' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'View listing' }).first()).toBeVisible()
     await expect(page.getByRole('button', { name: 'Update price' }).first()).toBeVisible()
+    // Near target rows show BOTH Update price and View listing (per the real screenshots) —
+    // In target (L1) contributes 1 "View listing", Near target (L2) contributes another.
+    await expect(page.getByRole('button', { name: 'View listing' })).toHaveCount(2)
     await page.keyboard.press('Escape')
     await expect(page.locator('[data-test="backdrop"]')).not.toBeVisible()
 
     await page.getByRole('button', { name: /Samsung Galaxies/ }).click()
-    await expect(page.getByText('Above target').first()).toBeVisible()
+    await expect(page.getByText('Far target').first()).toBeVisible()
     await expect(page.getByText('Not listed').first()).toBeVisible()
     await expect(page.getByRole('button', { name: 'Create listing' })).toBeVisible()
   })

@@ -32,11 +32,11 @@ function isActive(to: string | null) {
 <template>
   <div class="min-h-screen bg-surface-default-low">
     <header class="border-b border-static-default-low bg-surface-default-hi">
-      <div class="mx-auto flex max-w-[1440px] items-center gap-4 px-6 py-3">
+      <div class="mx-auto flex max-w-[1440px] items-center gap-16 px-24 py-12">
         <span class="heading-4 font-bold leading-none">
           Back<br>Market
         </span>
-        <span class="ml-4 body-2 text-static-default-low">
+        <span class="ml-16 body-2 text-static-default-low">
           Hello, Test Seller
         </span>
         <div class="flex-1" />
@@ -44,27 +44,32 @@ function isActive(to: string | null) {
           English (United Kingdom)
         </span>
       </div>
-      <nav class="mx-auto flex max-w-[1440px] gap-6 overflow-x-auto px-6" aria-label="Primary">
-        <component
-          :is="item.to ? 'NuxtLink' : 'span'"
-          v-for="item in NAV_ITEMS"
-          :key="item.label"
-          :to="item.to ?? undefined"
-          class="whitespace-nowrap border-b-2 py-3 body-2"
-          :class="[
-            isActive(item.to)
-              ? 'border-static-default-hi font-medium text-static-default-hi'
-              : 'border-transparent text-static-default-low',
-            !item.to && 'cursor-not-allowed opacity-60',
-          ]"
-          :title="!item.to ? 'Not available in this prototype' : undefined"
-        >
-          {{ item.label }}
-        </component>
+      <nav class="mx-auto flex max-w-[1440px] gap-24 overflow-x-auto px-24" aria-label="Primary">
+        <template v-for="item in NAV_ITEMS" :key="item.label">
+          <NuxtLink
+            v-if="item.to"
+            :to="item.to"
+            class="whitespace-nowrap border-b-2 py-12 body-2"
+            :class="
+              isActive(item.to)
+                ? 'border-static-default-hi font-medium text-static-default-hi'
+                : 'border-transparent text-static-default-low'
+            "
+          >
+            {{ item.label }}
+          </NuxtLink>
+          <span
+            v-else
+            class="whitespace-nowrap border-b-2 border-transparent py-12 body-2 text-static-default-low cursor-not-allowed opacity-60"
+            title="Not available in this prototype"
+          >
+            {{ item.label }}
+          </span>
+        </template>
       </nav>
     </header>
 
-    <main class="mx-auto max-w-[1440px] px-6 py-8">
+    <main class="mx-auto max-w-[1440px] px-24 py-32">
       <slot />
     </main>
 

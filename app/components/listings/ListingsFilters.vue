@@ -9,11 +9,11 @@ const productTypeOptions = ['All product types', 'smartphone', 'laptop']
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-4">
-    <div class="w-48">
+  <div class="flex flex-wrap gap-16">
+    <div class="w-[192px]">
       <RevInputSelect v-model="market" label="Market" id="listings-market-filter" :options="marketOptions" />
     </div>
-    <div class="w-56">
+    <div class="w-224">
       <RevInputSelect v-model="productType" label="Product type" id="listings-product-type-filter" :options="productTypeOptions" />
     </div>
   </div>
