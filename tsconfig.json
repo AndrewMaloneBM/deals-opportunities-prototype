@@ -1,0 +1,8 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@ds/*": ["./node_modules/@backmarket/design-system/dist/src/*"]
+    }
+  }
+}
