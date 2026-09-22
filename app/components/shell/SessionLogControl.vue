@@ -8,6 +8,8 @@
 import { ref } from 'vue'
 import { RevButton } from '@ds/components/Button'
 import { RevBadge } from '@ds/components/Badge'
+import { RevButtonIcon } from '@ds/components/ButtonIcon'
+import { IconGear } from '@ds/icons/IconGear'
 import { useToast } from '@ds/composables/useToast'
 import { useEventLog } from '~/composables/useEventLog'
 import { useListingActions } from '~/composables/useListingActions'
@@ -45,13 +47,14 @@ function onReset() {
         </RevButton>
       </div>
     </div>
-    <button
-      type="button"
-      class="relative flex h-44 w-44 items-center justify-center rounded-full border border-static-default-low bg-surface-default-hi shadow-md"
-      aria-label="Session log and reset"
-      @click="isOpen = !isOpen"
-    >
-      <span aria-hidden="true">⚙</span>
+    <div class="relative">
+      <RevButtonIcon
+        :icon="IconGear"
+        variant="secondary"
+        size="medium"
+        aria-label="Session log and reset"
+        @click="isOpen = !isOpen"
+      />
       <RevBadge
         v-if="events.length > 0"
         :count="events.length"
@@ -59,6 +62,6 @@ function onReset() {
         class="absolute -top-4 -right-4"
         aria-label="Number of events recorded"
       />
-    </button>
+    </div>
   </div>
 </template>

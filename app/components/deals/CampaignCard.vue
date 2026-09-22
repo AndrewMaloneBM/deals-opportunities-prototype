@@ -2,8 +2,8 @@
 /**
  * Campaign card content — matches the real screenshots (2026-09-22) exactly:
  * Active tag + campaign name on the left; on the right, a time-left pill and
- * a "N models" pill, and market flag pills below those. No commission-rate
- * text or date range shown on the card itself (that only appears inside the
+ * a "N models" pill, and market flags below those. No commission-rate text
+ * or date range shown on the card itself (that only appears inside the
  * drawer, per the screenshots).
  *
  * Uses RevTag (not RevChip) for all decorative pills here — RevChip renders
@@ -19,17 +19,11 @@ import { RevTag } from '@ds/components/Tag'
 import { IconClock } from '@ds/icons/IconClock'
 import type { Campaign } from '~/domain/types'
 import { daysLeftLabel } from '~/domain/formatting'
+import MarketFlag from '~/components/shell/MarketFlag.vue'
 
 defineProps<{
   campaign: Campaign
 }>()
-
-const MARKET_FLAG: Record<string, string> = {
-  FR: '🇫🇷',
-  ES: '🇪🇸',
-  DE: '🇩🇪',
-  IT: '🇮🇹',
-}
 </script>
 
 <template>
@@ -47,8 +41,8 @@ const MARKET_FLAG: Record<string, string> = {
           <RevTag :icon="IconClock" :label="daysLeftLabel(campaign.endDate)" variant="secondary" />
           <RevTag :label="`${campaign.modelCount} models ›`" variant="secondary" />
         </div>
-        <div class="flex gap-4">
-          <RevTag v-for="market in campaign.markets" :key="market" :label="`${MARKET_FLAG[market]} ${market}`" variant="secondary" size="small" />
+        <div class="flex gap-8">
+          <MarketFlag v-for="market in campaign.markets" :key="market" :market="market" />
         </div>
       </div>
     </div>

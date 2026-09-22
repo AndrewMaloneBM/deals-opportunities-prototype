@@ -18,6 +18,7 @@ import { IconClock } from '@ds/icons/IconClock'
 import type { Campaign, ListingFixture } from '~/domain/types'
 import { daysLeftLabel } from '~/domain/formatting'
 import { useEventLog } from '~/composables/useEventLog'
+import MarketFlag from '~/components/shell/MarketFlag.vue'
 import CampaignCard from './CampaignCard.vue'
 import ModelsTable from './ModelsTable.vue'
 
@@ -27,13 +28,6 @@ const props = defineProps<{
 }>()
 
 const { logEvent } = useEventLog()
-
-const MARKET_FLAG: Record<string, string> = {
-  FR: '🇫🇷',
-  ES: '🇪🇸',
-  DE: '🇩🇪',
-  IT: '🇮🇹',
-}
 
 function onOpen() {
   logEvent('campaign_card_opened', { campaignId: props.campaign.id })
@@ -62,8 +56,8 @@ function onOpen() {
           {{ campaign.description }}
         </p>
 
-        <div class="flex gap-8">
-          <RevTag v-for="market in campaign.markets" :key="market" :label="`${MARKET_FLAG[market]} ${market}`" variant="secondary" size="small" />
+        <div class="flex gap-16">
+          <MarketFlag v-for="market in campaign.markets" :key="market" :market="market" />
         </div>
 
         <hr class="border-static-default-low">

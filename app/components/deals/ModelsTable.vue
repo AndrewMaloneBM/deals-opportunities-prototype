@@ -8,8 +8,10 @@
 import { computed } from 'vue'
 import { RevTable } from '@ds/components/Table'
 import type { Column } from '@ds/components/Table'
+import { IconSmartphone } from '@ds/icons/IconSmartphone'
+import { IconLaptop } from '@ds/icons/IconLaptop'
 import { computeListingStatus, computeMetricsForListing } from '~/domain/calculations'
-import type { Campaign, ListingFixture } from '~/domain/types'
+import type { Campaign, ListingFixture, ProductType } from '~/domain/types'
 import StatusTag from './StatusTag.vue'
 import ActionButton from './ActionButton.vue'
 
@@ -32,6 +34,11 @@ const rows = computed(() =>
   })),
 )
 
+const TYPE_ICON: Record<ProductType, typeof IconSmartphone> = {
+  smartphone: IconSmartphone,
+  laptop: IconLaptop,
+}
+
 function metrics(listing: ListingFixture) {
   return computeMetricsForListing(listing, [props.campaign])
 }
@@ -40,13 +47,18 @@ function metrics(listing: ListingFixture) {
 <template>
   <RevTable :collection="rows" :columns="columns">
     <template #body-product="{ item }">
-      <div>
-        <p class="font-medium text-static-default-hi">
-          {{ item.productName }}
-        </p>
-        <p class="text-static-default-low body-2">
-          {{ item.sku }} · {{ item.market }}
-        </p>
+      <div class="flex items-center gap-16">
+        <div class="flex h-48 w-36 shrink-0 items-center justify-center rounded-[4px] bg-static-default-mid">
+          <component :is="TYPE_ICON[item.productType]" class="h-24 w-24 text-static-default-mid" />
+        </div>
+        <div>
+          <p class="font-medium text-static-default-hi">
+            {{ item.productName }}
+          </p>
+          <p class="text-static-default-low body-2">
+            {{ item.sku }} · {{ item.market }}
+          </p>
+        </div>
       </div>
     </template>
 
