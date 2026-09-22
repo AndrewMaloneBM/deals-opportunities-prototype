@@ -1,13 +1,10 @@
 <script setup lang="ts">
 /**
  * Back Office shell — modeled on the real Seller BO header (Andrew's real
- * screenshots, 2026-09-22) and front-apps' TheHeader.vue (inspected
- * read-only): real BM logo, greeting, "Leave seller view", Sales selector,
- * Seller Guide button, language selector, profile icon; primary nav below
- * with active underline. Only Listings and Opportunities are functional in
- * this prototype; the rest are static.
- *
- * Uses the real DS CountryFlag/icons — no emoji or text glyphs.
+ * screenshots, 2026-09-22): real BM logo, greeting, "Leave seller view",
+ * borderless Sales/language selectors, Seller Guide button, ghost profile
+ * icon, primary nav below with active underline. Only Home, Listings and
+ * Opportunities are functional in this prototype; the rest are static.
  */
 import { useRoute } from 'vue-router'
 import { RevButton } from '@ds/components/Button'
@@ -33,7 +30,7 @@ const NAV_ITEMS = [
 ]
 
 const boType = ref('Sales')
-const language = ref('English (Ireland)')
+const language = ref('English (United Kingdom)')
 
 const boTypeOptions = ['Sales', 'Buyback']
 const languageOptions = ['English (Ireland)', 'English (United Kingdom)', 'Français', 'Deutsch', 'Español', 'Italiano']
@@ -48,7 +45,7 @@ function isActive(to: string | null) {
 <template>
   <div class="min-h-screen bg-static-default-low">
     <header class="border-b border-static-default-low bg-static-default-hi">
-      <div class="mx-auto flex max-w-[1440px] items-center gap-16 px-24 pt-16">
+      <div class="mx-auto flex max-w-[1880px] items-center gap-16 px-32 pt-16">
         <img
           src="/img/header/logo.svg"
           alt="Back Market"
@@ -59,8 +56,8 @@ function isActive(to: string | null) {
           Leave seller view
         </RevButton>
         <div class="flex-1" />
-        <div class="flex items-center gap-8">
-          <div class="w-[96px]">
+        <div class="header-select flex items-center gap-16">
+          <div class="w-[88px]">
             <RevInputSelect
               v-model="boType"
               id="header-bo-type"
@@ -72,7 +69,7 @@ function isActive(to: string | null) {
           <RevButton variant="primary" size="small" :icon="IconSparkles">
             Seller Guide
           </RevButton>
-          <div class="w-[176px]">
+          <div class="w-[224px]">
             <RevInputSelect
               v-model="language"
               id="header-language"
@@ -83,18 +80,18 @@ function isActive(to: string | null) {
           </div>
           <RevButtonIcon
             :icon="IconAvatar"
-            variant="secondary"
+            variant="ghost"
             size="medium"
             aria-label="Account"
           />
         </div>
       </div>
-      <nav class="mx-auto flex max-w-[1440px] gap-32 overflow-x-auto px-24" aria-label="Primary">
+      <nav class="mx-auto flex max-w-[1880px] gap-32 overflow-x-auto px-32" aria-label="Primary">
         <template v-for="item in NAV_ITEMS" :key="item.label">
           <NuxtLink
             v-if="item.to"
             :to="item.to"
-            class="whitespace-nowrap border-b-2 py-12 body-1"
+            class="whitespace-nowrap border-b-2 py-16 body-1"
             :class="
               isActive(item.to)
                 ? 'border-static-default-hi font-medium text-static-default-hi'
@@ -105,7 +102,7 @@ function isActive(to: string | null) {
           </NuxtLink>
           <span
             v-else
-            class="whitespace-nowrap border-b-2 border-transparent py-12 body-1 text-static-default-mid cursor-not-allowed"
+            class="whitespace-nowrap border-b-2 border-transparent py-16 body-1 text-static-default-mid cursor-not-allowed"
             title="Not available in this prototype"
           >
             {{ item.label }}
@@ -114,7 +111,7 @@ function isActive(to: string | null) {
       </nav>
     </header>
 
-    <main class="mx-auto max-w-[1440px] px-32 py-32">
+    <main class="mx-auto max-w-[1880px] px-32 py-32">
       <slot />
     </main>
 
@@ -122,3 +119,15 @@ function isActive(to: string | null) {
     <SessionLogControl />
   </div>
 </template>
+
+<style scoped>
+/* The real BO header selectors are borderless on white — the DS InputSelect
+   always renders its boxed floating style (a background span + an absolute
+   border overlay), so blend both into the header. */
+.header-select :deep([class*='bg-static-default-low']) {
+  background-color: transparent !important;
+}
+.header-select :deep([class*='border-action-default-low']) {
+  border-color: transparent !important;
+}
+</style>

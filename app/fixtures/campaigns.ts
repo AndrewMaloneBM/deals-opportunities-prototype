@@ -9,7 +9,7 @@ import type { Campaign } from '~/domain/types'
 export const CAMPAIGNS: Campaign[] = [
   {
     id: 'c1',
-    name: 'Apple iPhones — selected models',
+    name: 'Apple iPhones & Samsung Galaxies - selected models',
     status: 'active',
     startDate: '2026-09-01',
     endDate: '2026-10-15',
@@ -22,7 +22,7 @@ export const CAMPAIGNS: Campaign[] = [
   },
   {
     id: 'c2',
-    name: 'Samsung Galaxies & Apple MacBooks — selected models',
+    name: 'MacBook Air M3 - back to school promo',
     status: 'active',
     startDate: '2026-08-20',
     endDate: '2026-11-01',

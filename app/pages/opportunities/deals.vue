@@ -2,8 +2,11 @@
 /**
  * Opportunities → Deals — the primary research journey.
  * Route matches the real PRD exactly: /opportunities/deals.
+ * Layout matches the real screenshots: page title, Pricing/Deals sub-tabs
+ * (no Inventory in the real build), no filter bar, stacked full-width
+ * campaign cards.
  */
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { RevPagination } from '@ds/components/Pagination'
 import { RevLoadingScreen } from '@ds/components/LoadingScreen'
 import { RevInfoBlock } from '@ds/components/InfoBlock'
@@ -12,7 +15,6 @@ import { useCampaignsState, useListingsState } from '~/composables/useListingAct
 import { useEventLog } from '~/composables/useEventLog'
 import { useDealScenario } from '~/composables/useDealScenario'
 import CampaignDrawer from '~/components/deals/CampaignDrawer.vue'
-import CampaignFilters from '~/components/deals/CampaignFilters.vue'
 
 const campaigns = useCampaignsState()
 const listings = useListingsState()
@@ -32,21 +34,15 @@ const debugState = computed(() => {
   return value === 'loading' || value === 'empty' || value === 'error' ? value : null
 })
 
-const market = ref('All markets')
-const productType = ref('All product types')
-
 const activeCampaigns = computed(() => campaigns.value.filter((c) => c.status === 'active'))
 
-const filteredCampaigns = computed(() => {
-  if (debugState.value === 'empty') return []
-  return activeCampaigns.value.filter((campaign) => {
-    const marketMatch = market.value === 'All markets' || campaign.markets.includes(market.value as never)
-    const typeMatch =
-      productType.value === 'All product types' ||
-      listingsForCampaign(campaign.id).some((l) => l.productType === productType.value)
-    return marketMatch && typeMatch
-  })
-})
+/** Credible pagination state — hidden while everything fits on one page
+ * (matches the real UI, which shows no pagination for a short list). */
+const PAGE_SIZE = 10
+
+const visibleCampaigns = computed(() =>
+  debugState.value === 'empty' ? [] : activeCampaigns.value,
+)
 
 function listingsForCampaign(campaignId: string) {
   const rows = listings.value.filter((l) => l.campaignId === campaignId)
@@ -64,15 +60,14 @@ function listingsForCampaign(campaignId: string) {
 </script>
 
 <template>
-  <div class="space-y-24">
+  <div class="space-y-32">
     <div>
       <h1 class="heading-1">
         Opportunities
       </h1>
-      <div class="mt-16 flex gap-24 border-b border-static-default-low">
-        <span class="pb-12 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Pricing</span>
-        <span class="pb-12 body-1 text-static-default-low cursor-not-allowed" title="Not available in this prototype">Inventory</span>
-        <span class="pb-12 body-1 font-medium border-b-2 border-static-default-hi">Deals</span>
+      <div class="mt-24 flex gap-40 border-b border-static-default-low">
+        <span class="pb-16 body-1 text-static-default-mid cursor-not-allowed" title="Not available in this prototype">Pricing</span>
+        <span class="pb-16 body-1 font-medium border-b-2 border-static-default-hi">Deals</span>
       </div>
     </div>
 
@@ -86,18 +81,16 @@ function listingsForCampaign(campaignId: string) {
     />
 
     <template v-else>
-      <CampaignFilters v-model:market="market" v-model:product-type="productType" />
-
       <RevInfoBlock
-        v-if="filteredCampaigns.length === 0"
-        title="No active Deal campaigns match these filters"
+        v-if="visibleCampaigns.length === 0"
+        title="No active Deal campaigns right now"
         variant="info"
-        content="Try clearing the market or product type filter."
+        content="Check back soon — new Deals are added regularly."
       />
 
-      <div v-else class="flex flex-col gap-16">
+      <div v-else class="flex flex-col gap-24">
         <CampaignDrawer
-          v-for="campaign in filteredCampaigns"
+          v-for="campaign in visibleCampaigns"
           :key="campaign.id"
           :campaign="campaign"
           :listings="listingsForCampaign(campaign.id)"
@@ -105,8 +98,8 @@ function listingsForCampaign(campaignId: string) {
       </div>
 
       <RevPagination
-        v-if="filteredCampaigns.length > 0"
-        navigation-ariaLabel="Deal campaigns pagination"
+        v-if="Math.ceil(visibleCampaigns.length / PAGE_SIZE) > 1"
+        navigation-aria-label="Deal campaigns pagination"
         previous-aria-label="Previous page"
         next-aria-label="Next page"
         :current-page="1"

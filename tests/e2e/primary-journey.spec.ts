@@ -33,7 +33,7 @@ test.describe('Primary journey — Listings to Deals Opportunities', () => {
 
   test('Deals page shows both active campaigns', async ({ page }) => {
     await unlock(page)
-    await expect(page.getByText('Apple iPhones — selected models')).toBeVisible()
+    await expect(page.getByText('Apple iPhones & Samsung Galaxies - selected models')).toBeVisible()
     await expect(page.getByText(/Samsung Galaxies/)).toBeVisible()
   })
 
@@ -50,7 +50,7 @@ test.describe('Primary journey — Listings to Deals Opportunities', () => {
     await page.keyboard.press('Escape')
     await expect(page.locator('[data-test="backdrop"]')).not.toBeVisible()
 
-    await page.getByRole('button', { name: /Samsung Galaxies/ }).click()
+    await page.getByRole('button', { name: /MacBook Air M3/ }).click()
     await expect(page.getByText('Far target').first()).toBeVisible()
     await expect(page.getByText('Not listed').first()).toBeVisible()
     await expect(page.getByRole('button', { name: 'Create listing' })).toBeVisible()
@@ -58,7 +58,7 @@ test.describe('Primary journey — Listings to Deals Opportunities', () => {
 
   test('the negative-profit fixture shows a negative profit per unit', async ({ page }) => {
     await unlock(page)
-    await page.getByRole('button', { name: /Samsung Galaxies/ }).click()
+    await page.getByRole('button', { name: /MacBook Air M3/ }).click()
     await expect(page.getByText('€-11.20 profit/unit')).toBeVisible()
   })
 
@@ -71,7 +71,7 @@ test.describe('Primary journey — Listings to Deals Opportunities', () => {
 
   test('Create listing action mocks a listing creation with a toast', async ({ page }) => {
     await unlock(page)
-    await page.getByRole('button', { name: /Samsung Galaxies/ }).click()
+    await page.getByRole('button', { name: /MacBook Air M3/ }).click()
     await page.getByRole('button', { name: 'Create listing' }).click()
     await expect(page.getByText('Listing created (mocked)')).toBeVisible()
   })
@@ -105,7 +105,7 @@ test.describe('Research scenarios', () => {
       page.on('pageerror', (e) => errors.push(e.message))
       await unlock(page)
       await page.goto(`/opportunities/deals?scenario=${scenario}`)
-      await expect(page.getByText('Apple iPhones — selected models')).toBeVisible()
+      await expect(page.getByText('Apple iPhones & Samsung Galaxies - selected models')).toBeVisible()
       expect(errors).toHaveLength(0)
     })
   }
